@@ -1,1 +1,6 @@
 .DS_Store
+
+# Alkuperäiset ruokakuvat pysyvät vain koneella ja Supabasessa.
+# Sovellus ei lue niitä, ja repo pysyy kevyenä ilman niitä.
+alkuperaiskuvat/*
+!alkuperaiskuvat/LUEMINUT.md

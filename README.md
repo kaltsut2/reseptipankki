@@ -148,4 +148,5 @@ kirjautumista, tai lisäämällä lomakkeen eteen PIN-kyselyn.
 | `db.js` | Yhteys Supabaseen ja kuvien pienennys |
 | `config.js` | Supabase-avaimet ja kategorialista |
 | `supabase.sql` | Tietokannan luonti |
+| `alkuperaiskuvat/` | Täysikokoiset ruokakuvat vain koneella — ei versiohistoriassa |
 | `style.css` | Ulkoasu |
