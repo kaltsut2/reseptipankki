@@ -59,6 +59,7 @@ function piirra() {
         <button class="nappi" type="button" id="hereillaNappi">💡 Pidä näyttö auki</button>
       </div>
 
+      <div class="resepti-palstat">
       ${ainekset.length ? `
       <section class="osio">
         <h2>Ainekset</h2>
@@ -76,6 +77,8 @@ function piirra() {
           ${askeleet.map((askel) => `<li><div>${suojaa(askel)}</div></li>`).join('')}
         </ol>
       </section>` : ''}
+
+      </div>
 
       ${resepti.vinkki ? `
       <section class="osio">

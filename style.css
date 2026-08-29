@@ -39,6 +39,7 @@
   --varjo:         0 1px 2px rgba(67, 51, 58, .05), 0 8px 24px rgba(157, 129, 137, .13);
   --varjo-levy:    0 -6px 44px rgba(67, 51, 58, .18);
   --pyoristys:     20px;
+  --sisalto-max:   940px;
 
   /* Liikkeen sanasto */
   --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
@@ -110,17 +111,22 @@ button, input, select, textarea {
   color: inherit;
 }
 
+/* Vaaka-asennossa Dynamic Island ja pyöristetyt kulmat vievät tilaa
+   sivureunoista, joten sisältö väistää ne turva-alueiden verran. */
 .sisalto {
-  max-width: 900px;
+  max-width: var(--sisalto-max);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 calc(16px + env(safe-area-inset-right))
+           0 calc(16px + env(safe-area-inset-left));
 }
 
 /* --- Yläpalkki ------------------------------------------------- */
 
 .ylapalkki {
-  padding: calc(env(safe-area-inset-top) + 22px) 16px 8px;
-  max-width: 900px;
+  padding: calc(env(safe-area-inset-top) + 22px)
+           calc(16px + env(safe-area-inset-right)) 8px
+           calc(16px + env(safe-area-inset-left));
+  max-width: var(--sisalto-max);
   margin: 0 auto;
 }
 
@@ -216,8 +222,12 @@ button, input, select, textarea {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 2px 16px 14px;
-  margin: 0 -16px;
+  padding-top: 2px;
+  padding-bottom: 14px;
+  padding-left:  max(calc(16px + env(safe-area-inset-left)),
+                     calc((100% - var(--sisalto-max)) / 2 + 16px));
+  padding-right: max(calc(16px + env(safe-area-inset-right)),
+                     calc((100% - var(--sisalto-max)) / 2 + 16px));
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -258,8 +268,15 @@ button, input, select, textarea {
   padding-bottom: 28px;
 }
 
-@media (min-width: 620px) {
+/* Sarakemäärä kasvaa näytön mukana. Puhelimissa (375–440 pt) kaksi
+   saraketta pitää kortit luettavan kokoisina; iPadin pystyasennossa
+   (820 pt) niitä mahtuu kolme ja vaakatasossa (1180 pt) neljä. */
+@media (min-width: 640px) {
   .ruudukko { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+}
+
+@media (min-width: 1000px) {
+  .ruudukko { grid-template-columns: repeat(4, 1fr); gap: 20px; }
 }
 
 .kortti {
@@ -526,12 +543,17 @@ button, input, select, textarea {
   color: var(--muste);
 }
 
+/* Painikkeet jakavat rivin tasan ja venyvät täyteen leveyteen jos
+   teksti pakottaa ne omalle rivilleen — muuten kapeaan näyttöön jää
+   puolityhjiä rivejä. */
 .toiminnot {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin: 8px 0 40px;
 }
+
+.toiminnot .nappi { flex: 1 1 auto; }
 
 /* --- Painikkeet ------------------------------------------------- */
 
@@ -750,6 +772,8 @@ button, input, select, textarea {
   backdrop-filter: saturate(180%) blur(20px);
   border-top: 1px solid color-mix(in srgb, var(--viiva) 70%, transparent);
   padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
   z-index: 20;
 }
 
@@ -843,4 +867,95 @@ button, input, select, textarea {
 @media (prefers-contrast: more) {
   :root { --viiva: #B79FA6; --muste-himmea: #5E4A51; }
   .kortti, .nappi, .tieto { border: 1px solid var(--viiva); }
+}
+
+/* ===============================================================
+   Leveät näytöt
+
+   Puhelimet osuvat välille 375–440 pt, joten perustyylit on
+   mitoitettu sinne. Nämä säännöt sovittavat saman käyttöliittymän
+   11 tuuman iPadille (820 pt pystyssä, 1180 pt vaakatasossa) ilman
+   että mistään tulee venytettyä.
+   =============================================================== */
+
+@media (min-width: 700px) {
+  body { font-size: 1.09rem; }
+
+  .ylapalkki { padding-top: calc(env(safe-area-inset-top) + 30px); }
+  .ylapalkki h1 { font-size: 2.5rem; }
+  .ylapalkki p { font-size: 1.03rem; }
+
+  /* Täysleveä arvontapainike näyttäisi tabletilla venytetyltä, joten
+     se kutistuu omaan mittaansa ja haku täyttää loput rivistä. */
+  .ohjaimet {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 20px;
+  }
+
+  .arvo-painike {
+    width: auto;
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 28px;
+  }
+
+  .hakukentta { flex: 1; margin-bottom: 0; }
+
+  .hakukentta input { min-height: 62px; }
+
+  .siru { min-height: 44px; padding: 0 18px; font-size: 1rem; }
+
+  .kortti h3 { font-size: 1.12rem; }
+  .kortti .meta { font-size: 0.86rem; }
+  .kortti .kuva { font-size: 3rem; }
+
+  /* Alanavigaatio keskitetään: 1180 pistettä leveä palkki, jonka
+     päissä on kolme kuvaketta, pakottaisi silmän laidasta laitaan. */
+  .alanavi { justify-content: center; }
+  .alanavi a { flex: 0 0 150px; }
+  .alanavi a { font-size: 0.78rem; }
+  .alanavi a .kuvake { font-size: 1.45rem; }
+
+  /* Kuva ei saa täyttää koko näyttöä ennen kuin ohjeeseen pääsee. */
+  .hero, .hero-tyhja {
+    aspect-ratio: auto;
+    height: 40vh;
+    max-height: 420px;
+  }
+
+  .hero-tyhja { font-size: 6rem; }
+
+  .resepti-otsikko h1 { font-size: 2.5rem; }
+
+  .osio > h2 { font-size: 1.45rem; }
+
+  .toiminnot .nappi { min-height: 56px; }
+
+  .nappi.paa { width: auto; min-width: 260px; }
+
+  .arpalevy { padding-left: 26px; padding-right: 26px; }
+}
+
+/* Ainekset ja työvaiheet rinnakkain. Keittiössä iPad on tyypillisesti
+   pystyssä tasolla, jolloin molemmat näkyvät kerralla eikä reseptiä
+   tarvitse rullata edestakaisin kesken kokkaamisen. */
+@media (min-width: 820px) {
+  .resepti-palstat {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.85fr) 1.15fr;
+    gap: 20px 44px;
+    align-items: start;
+  }
+
+  .askeleet li { margin-bottom: 20px; }
+}
+
+@media (min-width: 1000px) {
+  :root { --sisalto-max: 1160px; }
+
+  /* Luettavuus menisi pilalle, jos leipäteksti venyisi yhtä leveäksi
+     kuin ruudukko, joten reseptisivu pysyy kapeampana. */
+  .resepti-sivu .sisalto { max-width: 1000px; }
 }

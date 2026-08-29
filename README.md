@@ -99,6 +99,22 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
 - **Näyttö auki** -painike, jottei puhelin sammu kesken kokkaamisen.
 - Toimii sekä vaalealla että tummalla teemalla.
 
+## Näyttökoot
+
+Asettelu on mitoitettu leveyden mukaan, ei laitemallin, joten se kestää myös
+uudet laitteet:
+
+| Leveys | Laitteita | Asettelu |
+|---|---|---|
+| 375–440 pt | iPhone 15, 16, 17 ja Plus/Max-mallit | Kaksi saraketta, täysleveä arvontapainike |
+| 640–999 pt | iPad pystyssä, jaettu näyttö | Kolme saraketta, arvonta ja haku rinnakkain |
+| 1000 pt ja yli | 11" iPad vaakatasossa | Neljä saraketta, levein sisältöalue |
+
+Reseptisivulla ainekset ja työvaiheet siirtyvät rinnakkain 820 pisteestä
+alkaen, jolloin iPadilla näkee molemmat kerralla eikä reseptiä tarvitse
+rullata edestakaisin kesken kokkaamisen. Sisältö väistää myös vaaka-asennon
+turva-alueet, joten mikään ei jää Dynamic Islandin alle.
+
 ## Väreistä
 
 Paletti on äidin itsensä valitsema: salvia `#d8e2dc`, persikka `#ffe5d9`,
