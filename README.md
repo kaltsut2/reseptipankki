@@ -95,6 +95,11 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
   onnistuu valitsemalla ensin kategorian.
 - **Haku** nimen, kategorian, pääraaka-aineen ja ainesosien perusteella.
 - **Suosikit** omalla välilehdellään.
+- **Jaa resepti** — avaa puhelimen oman jakovalikon, josta reseptin saa
+  lähetettyä viestillä, WhatsAppilla tai sähköpostilla kenelle tahansa.
+  Mukana menee sekä koko resepti tekstinä että linkki, joten vastaanottajan ei
+  ole pakko avata mitään nähdäkseen ohjeen. Tietokoneella resepti kopioituu
+  leikepöydälle.
 - **Ainesten kuittaus** — napauta ainesta kokatessasi, niin se yliviivautuu.
 - **Näyttö auki** -painike, jottei puhelin sammu kesken kokkaamisen.
 - Toimii sekä vaalealla että tummalla teemalla.

@@ -56,6 +56,7 @@ function piirra() {
 
       <div class="toiminnot">
         <button class="nappi" type="button" id="suosikkiNappi"></button>
+        <button class="nappi" type="button" id="jaaNappi">📤 Jaa resepti</button>
         <button class="nappi" type="button" id="hereillaNappi">💡 Pidä näyttö auki</button>
       </div>
 
@@ -96,6 +97,68 @@ function piirra() {
   liitaTapahtumat();
 }
 
+// Resepti luettavana tekstinä. Sukulainen näkee ohjeen suoraan viestissä
+// eikä joudu avaamaan linkkiä, jos ei halua.
+function jaettavaTeksti() {
+  const osat = [resepti.nimi];
+
+  const tiedot = [
+    resepti.aika_min ? `${resepti.aika_min} min` : null,
+    resepti.annokset ? `${resepti.annokset} annosta` : null
+  ].filter(Boolean).join(' · ');
+  if (tiedot) osat.push(tiedot);
+
+  const ainekset = riveiksi(resepti.ainekset);
+  if (ainekset.length) {
+    osat.push('', 'AINEKSET', ...ainekset.map((rivi) => `- ${rivi}`));
+  }
+
+  const askeleet = riveiksi(resepti.ohje);
+  if (askeleet.length) {
+    osat.push('', 'NÄIN TEET', ...askeleet.map((rivi, i) => `${i + 1}. ${rivi}`));
+  }
+
+  if (resepti.vinkki) osat.push('', `Vinkki: ${resepti.vinkki}`);
+
+  return osat.join('\n');
+}
+
+function reseptinOsoite() {
+  return `${location.origin}${location.pathname}?id=${encodeURIComponent(resepti.id)}`;
+}
+
+async function jaaResepti(nappi) {
+  const osoite = reseptinOsoite();
+  const teksti = jaettavaTeksti();
+
+  // Puhelimessa tämä avaa käyttöjärjestelmän oman jakovalikon, josta
+  // reseptin saa lähetettyä viestillä, WhatsAppilla, sähköpostilla —
+  // millä tahansa laitteeseen asennetulla sovelluksella.
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: resepti.nimi, text: teksti, url: osoite });
+      return;
+    } catch (virhe) {
+      // Jakovalikon sulkeminen ei ole virhe, eikä siitä kerrota mitään.
+      if (virhe.name === 'AbortError') return;
+    }
+  }
+
+  // Tietokoneella jakovalikkoa ei ole, joten resepti menee leikepöydälle.
+  const alkuperainen = nappi.textContent;
+  try {
+    await navigator.clipboard.writeText(`${teksti}\n\n${osoite}`);
+    nappi.textContent = '✓ Kopioitu leikepöydälle';
+    nappi.disabled = true;
+    setTimeout(() => {
+      nappi.textContent = alkuperainen;
+      nappi.disabled = false;
+    }, 2200);
+  } catch (virhe) {
+    prompt('Kopioi reseptin linkki:', osoite);
+  }
+}
+
 function paivitaSuosikkiNappi() {
   document.getElementById('suosikkiNappi').textContent =
     resepti.suosikki ? '❤️ Suosikki' : '🤍 Merkitse suosikiksi';
@@ -121,6 +184,10 @@ function liitaTapahtumat() {
     } finally {
       nappi.disabled = false;
     }
+  });
+
+  document.getElementById('jaaNappi').addEventListener('click', (tapahtuma) => {
+    jaaResepti(tapahtuma.currentTarget);
   });
 
   document.getElementById('poistaNappi').addEventListener('click', async () => {
