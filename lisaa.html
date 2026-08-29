@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lisää resepti · Reseptipankki</title>
+<meta name="theme-color" content="#FBF7F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reseptit">
+<link rel="apple-touch-icon" href="ikoni-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="ylapalkki">
+  <a class="takaisin" href="index.html"><span aria-hidden="true">‹</span> Peruuta</a>
+  <h1 id="otsikko">Lisää resepti</h1>
+</header>
+
+<main class="sisalto">
+  <div id="asetusvaroitus"></div>
+
+  <form id="lomake" novalidate>
+
+    <div class="kentta">
+      <label for="nimi">Ruoan nimi</label>
+      <input type="text" id="nimi" required autocomplete="off" placeholder="Esim. Mummon lihapullat">
+    </div>
+
+    <div class="kentta">
+      <label for="kuva">Kuva ruoasta</label>
+      <p class="ohjeteksti">Voit ottaa kuvan heti kameralla tai valita sen kuvista.</p>
+      <label class="kuvavalinta" id="kuvalaatikko">
+        <span id="kuvaTeksti">
+          <span class="iso" aria-hidden="true">📷</span>
+          Napauta ja valitse kuva
+        </span>
+        <input type="file" id="kuva" accept="image/*">
+      </label>
+    </div>
+
+    <div class="kentta">
+      <label for="kategoria">Kategoria</label>
+      <select id="kategoria"></select>
+    </div>
+
+    <div class="kentta">
+      <label for="paaraaka">Pääraaka-aine</label>
+      <p class="ohjeteksti">Auttaa löytämään ruoan sen mukaan mitä jääkaapissa on.</p>
+      <input type="text" id="paaraaka" autocomplete="off" placeholder="Esim. jauheliha">
+    </div>
+
+    <div class="rivi">
+      <div class="kentta">
+        <label for="aika">Aika (min)</label>
+        <input type="number" id="aika" inputmode="numeric" min="0" placeholder="45">
+      </div>
+      <div class="kentta">
+        <label for="annokset">Annoksia</label>
+        <input type="number" id="annokset" inputmode="numeric" min="0" placeholder="4">
+      </div>
+    </div>
+
+    <div class="kentta">
+      <label for="ainekset">Ainekset</label>
+      <p class="ohjeteksti">Yksi aines per rivi. Paina rivinvaihtoa jokaisen välissä.</p>
+      <textarea id="ainekset" placeholder="400 g jauhelihaa&#10;1 sipuli&#10;2 dl kermaa"></textarea>
+    </div>
+
+    <div class="kentta">
+      <label for="ohje">Näin teet</label>
+      <p class="ohjeteksti">Yksi työvaihe per rivi. Numerot tulevat automaattisesti.</p>
+      <textarea id="ohje" placeholder="Kuullota sipuli pannulla.&#10;Lisää jauheliha ja ruskista.&#10;Kaada kerma joukkoon ja hauduta 20 min."></textarea>
+    </div>
+
+    <div class="kentta">
+      <label for="vinkki">Vinkki (vapaaehtoinen)</label>
+      <textarea id="vinkki" style="min-height:90px" placeholder="Esim. maistuu parhaiten puolukkahillon kanssa."></textarea>
+    </div>
+
+    <div class="toiminnot">
+      <button class="nappi paa" type="submit" id="tallenna">Tallenna resepti</button>
+    </div>
+
+    <p id="tila" class="ohjeteksti" style="text-align:center"></p>
+  </form>
+</main>
+
+<nav class="alanavi">
+  <a href="index.html"><span class="kuvake" aria-hidden="true">📖</span>Reseptit</a>
+  <a href="index.html?suosikit=1"><span class="kuvake" aria-hidden="true">❤️</span>Suosikit</a>
+  <a href="lisaa.html" aria-current="page"><span class="kuvake" aria-hidden="true">➕</span>Lisää uusi</a>
+</nav>
+
+<script src="config.js"></script>
+<script src="db.js"></script>
+<script src="lisaa.js"></script>
+</body>
+</html>

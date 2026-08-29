@@ -1,0 +1,590 @@
+/* ===============================================================
+   Reseptipankki — tyylit
+   Suunniteltu ensisijaisesti puhelimelle, skaalautuu iPadille.
+   Isot kosketuskohteet, rauhallinen keittokirjamainen ilme.
+   =============================================================== */
+
+:root {
+  --tausta:        #FBF7F0;
+  --pinta:         #FFFFFF;
+  --pinta-2:       #F3ECE1;
+  --teksti:        #2E2A25;
+  --teksti-himmea: #7C7268;
+  --viiva:         #E7DDCE;
+  --korostus:      #C0512B;
+  --korostus-tumma:#A2421F;
+  --korostus-pehm: #F7E6DC;
+  --vihrea:        #4F7A52;
+  --varjo:         0 1px 2px rgba(46, 42, 37, .06), 0 6px 16px rgba(46, 42, 37, .07);
+  --pyoristys:     18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tausta:        #17140F;
+    --pinta:         #221E18;
+    --pinta-2:       #2C2720;
+    --teksti:        #F2EBE0;
+    --teksti-himmea: #A79C8E;
+    --viiva:         #372F26;
+    --korostus:      #E8834F;
+    --korostus-tumma:#F0A177;
+    --korostus-pehm: #3A281E;
+    --vihrea:        #85B187;
+    --varjo:         0 1px 2px rgba(0, 0, 0, .3), 0 6px 16px rgba(0, 0, 0, .35);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 0 0 calc(78px + env(safe-area-inset-bottom));
+  background: var(--tausta);
+  color: var(--teksti);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+a { color: var(--korostus); }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 17px;   /* alle 16px saa iOS:n zoomaamaan kenttään */
+  color: inherit;
+}
+
+.sisalto {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* --- Yläpalkki ------------------------------------------------- */
+
+.ylapalkki {
+  padding: calc(env(safe-area-inset-top) + 20px) 16px 8px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ylapalkki h1 {
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.ylapalkki p {
+  margin: 4px 0 0;
+  color: var(--teksti-himmea);
+  font-size: 15px;
+}
+
+.takaisin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding-right: 12px;
+  color: var(--korostus);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* --- Arvontapainike -------------------------------------------- */
+
+.arvo-painike {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 60px;
+  margin: 16px 0 18px;
+  border: 0;
+  border-radius: var(--pyoristys);
+  background: var(--korostus);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: .01em;
+  box-shadow: var(--varjo);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.arvo-painike:active { transform: scale(.985); background: var(--korostus-tumma); }
+
+@media (prefers-color-scheme: dark) {
+  .arvo-painike { color: #1A1410; }
+}
+
+/* --- Haku ja suodattimet --------------------------------------- */
+
+.hakukentta {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.hakukentta input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px 0 46px;
+  border: 1px solid var(--viiva);
+  border-radius: 14px;
+  background: var(--pinta);
+  outline: none;
+}
+
+.hakukentta input:focus {
+  border-color: var(--korostus);
+  box-shadow: 0 0 0 3px var(--korostus-pehm);
+}
+
+.hakukentta .kuvake {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: .5;
+  pointer-events: none;
+}
+
+.suodattimet {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 16px 14px;
+  margin: 0 -16px;
+  scrollbar-width: none;
+}
+
+.suodattimet::-webkit-scrollbar { display: none; }
+
+.siru {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--viiva);
+  border-radius: 999px;
+  background: var(--pinta);
+  color: var(--teksti-himmea);
+  font-size: 15px;
+  font-weight: 550;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.siru[aria-pressed="true"] {
+  background: var(--korostus);
+  border-color: var(--korostus);
+  color: #fff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .siru[aria-pressed="true"] { color: #1A1410; }
+}
+
+/* --- Reseptiruudukko -------------------------------------------- */
+
+.ruudukko {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  padding-bottom: 24px;
+}
+
+@media (min-width: 620px) {
+  .ruudukko { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+}
+
+.kortti {
+  display: block;
+  background: var(--pinta);
+  border-radius: var(--pyoristys);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--varjo);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kortti:active { transform: scale(.98); }
+
+.kortti .kuva {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--pinta-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+}
+
+.kortti .kuva img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.kortti .sydan {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 15px;
+  background: rgba(255, 255, 255, .92);
+  border-radius: 999px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kortti .teksti { padding: 11px 13px 14px; }
+
+.kortti h3 {
+  font-size: 17px;
+  line-height: 1.25;
+  margin-bottom: 5px;
+}
+
+.kortti .meta {
+  font-size: 13px;
+  color: var(--teksti-himmea);
+}
+
+/* --- Tyhjä tila ja ilmoitukset ---------------------------------- */
+
+.tyhja {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--teksti-himmea);
+}
+
+.tyhja .iso { font-size: 46px; display: block; margin-bottom: 12px; }
+
+.tyhja h2 { font-size: 21px; color: var(--teksti); margin-bottom: 8px; }
+
+.huomio {
+  background: var(--korostus-pehm);
+  border: 1px solid var(--viiva);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin: 16px 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.huomio h2 { font-size: 18px; margin-bottom: 8px; }
+
+.huomio code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  background: var(--pinta);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
+/* --- Reseptisivu ------------------------------------------------ */
+
+.hero {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
+  background: var(--pinta-2);
+}
+
+.hero-tyhja {
+  aspect-ratio: 3 / 2;
+  background: var(--pinta-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 76px;
+}
+
+.resepti-otsikko { margin: 20px 0 10px; }
+
+.resepti-otsikko h1 { font-size: 30px; line-height: 1.18; }
+
+.tiedot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 22px;
+}
+
+.tieto {
+  background: var(--pinta);
+  border: 1px solid var(--viiva);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 14px;
+  color: var(--teksti-himmea);
+}
+
+.osio { margin-bottom: 30px; }
+
+.osio > h2 {
+  font-size: 21px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--korostus-pehm);
+}
+
+/* Ainekset: rivin voi kuitata tehdyksi kesken kokkaamisen */
+.ainekset { list-style: none; margin: 0; padding: 0; }
+
+.ainekset li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 48px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--viiva);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ainekset li:last-child { border-bottom: 0; }
+
+.ainekset .ruutu {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-top: 8px;
+  border: 2px solid var(--viiva);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: transparent;
+}
+
+.ainekset li.valmis .ruutu {
+  background: var(--vihrea);
+  border-color: var(--vihrea);
+  color: #fff;
+}
+
+.ainekset li span { padding: 9px 0; }
+
+.ainekset li.valmis span {
+  text-decoration: line-through;
+  color: var(--teksti-himmea);
+}
+
+/* Ohje: numeroidut askeleet */
+.askeleet { list-style: none; margin: 0; padding: 0; counter-reset: askel; }
+
+.askeleet li {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.askeleet li::before {
+  counter-increment: askel;
+  content: counter(askel);
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: var(--korostus-pehm);
+  color: var(--korostus);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.vinkki {
+  background: var(--pinta);
+  border-left: 4px solid var(--korostus);
+  border-radius: 0 14px 14px 0;
+  padding: 14px 16px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.toiminnot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 40px;
+}
+
+/* --- Painikkeet ------------------------------------------------- */
+
+.nappi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  padding: 0 20px;
+  border-radius: 14px;
+  border: 1px solid var(--viiva);
+  background: var(--pinta);
+  color: var(--teksti);
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nappi:active { transform: scale(.98); }
+
+.nappi.paa {
+  background: var(--korostus);
+  border-color: var(--korostus);
+  color: #fff;
+  width: 100%;
+  min-height: 58px;
+  font-size: 18px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .nappi.paa { color: #1A1410; }
+}
+
+.nappi.vaara { color: #B3261E; }
+
+@media (prefers-color-scheme: dark) {
+  .nappi.vaara { color: #F0918A; }
+}
+
+.nappi:disabled { opacity: .55; }
+
+/* --- Lomake ----------------------------------------------------- */
+
+.kentta { margin-bottom: 20px; }
+
+.kentta label {
+  display: block;
+  font-size: 15px;
+  font-weight: 650;
+  margin-bottom: 7px;
+}
+
+.kentta .ohjeteksti {
+  font-size: 14px;
+  color: var(--teksti-himmea);
+  margin: -3px 0 8px;
+  line-height: 1.45;
+}
+
+.kentta input[type="text"],
+.kentta input[type="number"],
+.kentta select,
+.kentta textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 13px 14px;
+  border: 1px solid var(--viiva);
+  border-radius: 14px;
+  background: var(--pinta);
+  outline: none;
+  line-height: 1.5;
+}
+
+.kentta textarea { resize: vertical; min-height: 130px; }
+
+.kentta input:focus, .kentta select:focus, .kentta textarea:focus {
+  border-color: var(--korostus);
+  box-shadow: 0 0 0 3px var(--korostus-pehm);
+}
+
+.rivi { display: flex; gap: 12px; }
+.rivi .kentta { flex: 1; }
+
+.kuvavalinta {
+  display: block;
+  border: 2px dashed var(--viiva);
+  border-radius: var(--pyoristys);
+  background: var(--pinta);
+  padding: 26px 16px;
+  text-align: center;
+  color: var(--teksti-himmea);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.kuvavalinta .iso { font-size: 34px; display: block; margin-bottom: 6px; }
+
+.kuvavalinta img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.kuvavalinta input { display: none; }
+
+/* --- Alanavigaatio ---------------------------------------------- */
+
+.alanavi {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  background: color-mix(in srgb, var(--tausta) 88%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  border-top: 1px solid var(--viiva);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 20;
+}
+
+.alanavi a {
+  flex: 1;
+  min-height: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--teksti-himmea);
+  font-size: 11.5px;
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.alanavi a .kuvake { font-size: 21px; line-height: 1; }
+
+.alanavi a[aria-current="page"] { color: var(--korostus); }
+
+/* --- Muuta ------------------------------------------------------ */
+
+.latautuu {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--teksti-himmea);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .kortti:active, .nappi:active, .arvo-painike:active { transform: none; }
+}

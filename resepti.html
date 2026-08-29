@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Resepti · Reseptipankki</title>
+<meta name="theme-color" content="#FBF7F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reseptit">
+<link rel="apple-touch-icon" href="ikoni-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="ylapalkki">
+  <a class="takaisin" href="index.html"><span aria-hidden="true">‹</span> Kaikki reseptit</a>
+</header>
+
+<main id="sisalto" class="latautuu">Haetaan reseptiä…</main>
+
+<nav class="alanavi">
+  <a href="index.html"><span class="kuvake" aria-hidden="true">📖</span>Reseptit</a>
+  <a href="index.html?suosikit=1"><span class="kuvake" aria-hidden="true">❤️</span>Suosikit</a>
+  <a href="lisaa.html"><span class="kuvake" aria-hidden="true">➕</span>Lisää uusi</a>
+</nav>
+
+<script src="config.js"></script>
+<script src="db.js"></script>
+<script src="resepti.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Reseptipankki",
+  "short_name": "Reseptit",
+  "description": "Äidin omat lempireseptit yhdessä paikassa.",
+  "lang": "fi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7F0",
+  "theme_color": "#C0512B",
+  "icons": [
+    { "src": "ikoni-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "ikoni-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "ikoni-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

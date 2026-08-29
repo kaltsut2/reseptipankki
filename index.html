@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reseptipankki</title>
+<meta name="description" content="Äidin omat lempireseptit yhdessä paikassa.">
+<meta name="theme-color" content="#FBF7F0" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Reseptit">
+<link rel="apple-touch-icon" href="ikoni-180.png">
+<link rel="icon" href="ikoni-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="ylapalkki">
+  <h1 id="otsikko">Reseptipankki</h1>
+  <p id="alaotsikko">Kaikki lempiruoat yhdessä paikassa</p>
+</header>
+
+<main class="sisalto">
+  <div id="asetusvaroitus"></div>
+
+  <button class="arvo-painike" id="arvo" type="button">
+    <span aria-hidden="true">🎲</span>
+    <span>Arvo minulle ruoka</span>
+  </button>
+
+  <div class="hakukentta">
+    <span class="kuvake" aria-hidden="true">🔍</span>
+    <input type="text" id="haku" placeholder="Hae nimellä tai aineksella" autocomplete="off" enterkeyhint="search">
+  </div>
+</main>
+
+<div class="suodattimet sisalto" id="suodattimet"></div>
+
+<main class="sisalto">
+  <div id="lista" class="latautuu">Haetaan reseptejä…</div>
+</main>
+
+<nav class="alanavi">
+  <a href="index.html" data-navi="kaikki"><span class="kuvake" aria-hidden="true">📖</span>Reseptit</a>
+  <a href="index.html?suosikit=1" data-navi="suosikit"><span class="kuvake" aria-hidden="true">❤️</span>Suosikit</a>
+  <a href="lisaa.html" data-navi="lisaa"><span class="kuvake" aria-hidden="true">➕</span>Lisää uusi</a>
+</nav>
+
+<script src="config.js"></script>
+<script src="db.js"></script>
+<script src="selaa.js"></script>
+</body>
+</html>
