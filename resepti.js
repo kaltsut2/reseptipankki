@@ -9,35 +9,36 @@ const sisaltoElementti = document.getElementById('sisalto');
 let resepti = null;
 let naytonLukko = null;
 
-function suojaa(teksti) {
-  return String(teksti ?? '').replace(/[&<>"']/g, (merkki) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  })[merkki]);
-}
-
-// Muuttaa monirivisen tekstin listaksi ja siivoaa tyhjät rivit sekä
-// käsin kirjoitetut luetteloviivat pois.
-function riveiksi(teksti) {
-  return String(teksti || '')
-    .split('\n')
-    .map((rivi) => rivi.replace(/^\s*[-–•*]\s*/, '').trim())
-    .filter(Boolean);
-}
-
 function piirra() {
-  const emoji = KATEGORIA_EMOJI[resepti.kategoria] || '🍴';
-  const vari = kategorianVari(resepti.kategoria);
+  const kategoriat = listaksi(resepti.kategoriat);
+  const raakaAineet = listaksi(resepti.paaraaka_aineet);
+
+  // Kortin ja yläkuvan sävy tulee ensimmäisestä kategoriasta.
+  const paakategoria = kategoriat[0] || 'Muut';
+  const emoji = kategorianEmoji(paakategoria);
+  const vari = kategorianVari(paakategoria);
 
   const kuvaOsa = resepti.kuva_url
     ? `<img class="hero saapuva-kuva" src="${suojaa(resepti.kuva_url)}" alt="${suojaa(resepti.nimi)}">`
     : `<div class="hero-tyhja saapuva-kuva ${vari}" aria-hidden="true">${emoji}</div>`;
 
-  const tiedot = [
-    resepti.kategoria,
-    resepti.aika_min ? `⏱ ${resepti.aika_min} min` : null,
-    resepti.annokset ? `🍽 ${resepti.annokset} annosta` : null,
-    resepti.paaraaka_aine
-  ].filter(Boolean);
+  const aika = muotoileAika(resepti.aika_min);
+
+  // Kategoriat ovat linkkejä omiin listoihinsa, muut tiedot pelkkiä
+  // merkintöjä.
+  const kategoriaMerkit = kategoriat.map((k) =>
+    `<a class="tieto tieto-linkki" href="index.html?kategoria=${encodeURIComponent(k)}">
+       <span aria-hidden="true">${kategorianEmoji(k)}</span> ${suojaa(k)}</a>`).join('');
+
+  const muutMerkit = [
+    aika ? `⏱ ${aika}` : null,
+    resepti.annokset ? `🍽 ${resepti.annokset} annosta` : null
+  ].filter(Boolean).map((t) => `<span class="tieto">${suojaa(t)}</span>`).join('');
+
+  const raakaAineMerkit = raakaAineet.length ? `
+    <div class="tiedot raaka-aineet">
+      ${raakaAineet.map((a) => `<span class="tieto raaka-aine">${suojaa(a)}</span>`).join('')}
+    </div>` : '';
 
   const ainekset = riveiksi(resepti.ainekset);
   const askeleet = riveiksi(resepti.ohje);
@@ -50,9 +51,12 @@ function piirra() {
         <h1>${suojaa(resepti.nimi)}</h1>
       </div>
 
-      <div class="tiedot">
-        ${tiedot.map((tieto) => `<span class="tieto">${suojaa(tieto)}</span>`).join('')}
-      </div>
+      <div class="tiedot">${kategoriaMerkit}${muutMerkit}</div>
+      ${raakaAineMerkit}
+
+      ${resepti.lisaaja
+        ? `<p class="lisaaja">Reseptin lisäsi <strong>${suojaa(resepti.lisaaja)}</strong></p>`
+        : ''}
 
       <div class="toiminnot">
         <button class="nappi" type="button" id="suosikkiNappi"></button>
@@ -78,7 +82,6 @@ function piirra() {
           ${askeleet.map((askel) => `<li><div>${suojaa(askel)}</div></li>`).join('')}
         </ol>
       </section>` : ''}
-
       </div>
 
       ${resepti.vinkki ? `
@@ -97,13 +100,16 @@ function piirra() {
   liitaTapahtumat();
 }
 
+// --- Jakaminen ------------------------------------------------------
+
 // Resepti luettavana tekstinä. Sukulainen näkee ohjeen suoraan viestissä
 // eikä joudu avaamaan linkkiä, jos ei halua.
 function jaettavaTeksti() {
   const osat = [resepti.nimi];
 
+  const aika = muotoileAika(resepti.aika_min);
   const tiedot = [
-    resepti.aika_min ? `${resepti.aika_min} min` : null,
+    aika,
     resepti.annokset ? `${resepti.annokset} annosta` : null
   ].filter(Boolean).join(' · ');
   if (tiedot) osat.push(tiedot);
@@ -119,6 +125,7 @@ function jaettavaTeksti() {
   }
 
   if (resepti.vinkki) osat.push('', `Vinkki: ${resepti.vinkki}`);
+  if (resepti.lisaaja) osat.push('', `Reseptin lisäsi ${resepti.lisaaja}`);
 
   return osat.join('\n');
 }
@@ -132,8 +139,7 @@ async function jaaResepti(nappi) {
   const teksti = jaettavaTeksti();
 
   // Puhelimessa tämä avaa käyttöjärjestelmän oman jakovalikon, josta
-  // reseptin saa lähetettyä viestillä, WhatsAppilla, sähköpostilla —
-  // millä tahansa laitteeseen asennetulla sovelluksella.
+  // reseptin saa lähetettyä millä tahansa asennetulla sovelluksella.
   if (navigator.share) {
     try {
       await navigator.share({ title: resepti.nimi, text: teksti, url: osoite });
@@ -144,7 +150,6 @@ async function jaaResepti(nappi) {
     }
   }
 
-  // Tietokoneella jakovalikkoa ei ole, joten resepti menee leikepöydälle.
   const alkuperainen = nappi.textContent;
   try {
     await navigator.clipboard.writeText(`${teksti}\n\n${osoite}`);
@@ -158,6 +163,8 @@ async function jaaResepti(nappi) {
     prompt('Kopioi reseptin linkki:', osoite);
   }
 }
+
+// --- Toiminnot -------------------------------------------------------
 
 function paivitaSuosikkiNappi() {
   document.getElementById('suosikkiNappi').textContent =
@@ -227,25 +234,27 @@ function liitaTapahtumat() {
   }
 }
 
+// --- Käynnistys --------------------------------------------------------
+
+function naytaEiLoytynyt(virhe) {
+  sisaltoElementti.className = '';
+  sisaltoElementti.innerHTML = `
+    <div class="tyhja"><span class="iso" aria-hidden="true">🤔</span>
+    <h2>Reseptiä ei löytynyt</h2>
+    <p><a href="index.html">Takaisin listaan</a></p></div>`;
+  if (virhe) console.error(virhe);
+}
+
 async function kaynnista() {
-  if (!ON_ASETETTU || !reseptiId) {
-    sisaltoElementti.className = '';
-    sisaltoElementti.innerHTML = `
-      <div class="tyhja"><span class="iso">🤔</span><h2>Reseptiä ei löytynyt</h2>
-      <p><a href="index.html">Takaisin listaan</a></p></div>`;
-    return;
-  }
+  if (!ON_ASETETTU || !reseptiId) return naytaEiLoytynyt();
+
   try {
     resepti = await haeResepti(reseptiId);
     if (!resepti) throw new Error('Ei löytynyt');
     document.title = `${resepti.nimi} · Reseptipankki`;
     piirra();
   } catch (virhe) {
-    sisaltoElementti.className = '';
-    sisaltoElementti.innerHTML = `
-      <div class="tyhja"><span class="iso">🤔</span><h2>Reseptiä ei löytynyt</h2>
-      <p><a href="index.html">Takaisin listaan</a></p></div>`;
-    console.error(virhe);
+    naytaEiLoytynyt(virhe);
   }
 }
 

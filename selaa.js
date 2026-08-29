@@ -4,9 +4,10 @@
 
 const parametrit = new URLSearchParams(location.search);
 const vainSuosikit = parametrit.get('suosikit') === '1';
+const kategoriaOsoitteesta = parametrit.get('kategoria');
 
 let kaikkiReseptit = [];
-let valittuKategoria = 'Kaikki';
+let valittuKategoria = kategoriaOsoitteesta || 'Kaikki';
 let ensimmainenPiirto = true;
 
 const listaElementti = document.getElementById('lista');
@@ -14,12 +15,6 @@ const hakuElementti = document.getElementById('haku');
 const arvoNappi = document.getElementById('arvo');
 
 const vahennaLiiketta = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-function suojaa(teksti) {
-  return String(teksti ?? '').replace(/[&<>"']/g, (merkki) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  })[merkki]);
-}
 
 function naytaAsetusohje() {
   document.getElementById('asetusvaroitus').innerHTML = `
@@ -37,7 +32,7 @@ function naytaAsetusohje() {
 // --- Suodatinsirut ----------------------------------------------
 
 function piirraSuodattimet() {
-  const kaytossa = [...new Set(kaikkiReseptit.map((r) => r.kategoria).filter(Boolean))];
+  const kaytossa = [...new Set(kaikkiReseptit.flatMap((r) => listaksi(r.kategoriat)))];
   const jarjestetyt = KATEGORIAT.filter((k) => kaytossa.includes(k))
     .concat(kaytossa.filter((k) => !KATEGORIAT.includes(k)));
 
@@ -63,15 +58,19 @@ function suodatetut() {
 
   return kaikkiReseptit.filter((resepti) => {
     if (vainSuosikit && !resepti.suosikki) return false;
-    if (valittuKategoria !== 'Kaikki' && resepti.kategoria !== valittuKategoria) return false;
+
+    if (valittuKategoria !== 'Kaikki'
+        && !listaksi(resepti.kategoriat).includes(valittuKategoria)) return false;
+
     if (!hakusana) return true;
 
     const haettava = [
       resepti.nimi,
-      resepti.kategoria,
-      resepti.paaraaka_aine,
+      ...listaksi(resepti.kategoriat),
+      ...listaksi(resepti.paaraaka_aineet),
+      resepti.lisaaja,
       resepti.ainekset
-    ].join(' ').toLowerCase();
+    ].filter(Boolean).join(' ').toLowerCase();
 
     return haettava.includes(hakusana);
   });
@@ -80,16 +79,17 @@ function suodatetut() {
 // --- Lista -------------------------------------------------------
 
 function korttiHtml(resepti, jarjestys) {
-  const emoji = KATEGORIA_EMOJI[resepti.kategoria] || '🍴';
-  const vari = kategorianVari(resepti.kategoria);
+  const paakategoria = listaksi(resepti.kategoriat)[0] || 'Muut';
+  const emoji = kategorianEmoji(paakategoria);
+  const vari = kategorianVari(paakategoria);
 
   const kuva = resepti.kuva_url
     ? `<img src="${suojaa(resepti.kuva_url)}" alt="" loading="lazy">`
     : `<span aria-hidden="true">${emoji}</span>`;
 
   const meta = [
-    resepti.aika_min ? `${resepti.aika_min} min` : null,
-    resepti.kategoria
+    muotoileAika(resepti.aika_min),
+    paakategoria
   ].filter(Boolean).join(' · ');
 
   // Porrastus katkaistaan kahdentoista jälkeen, jottei pitkän listan
@@ -193,16 +193,17 @@ function projisoi(nopeus, hidastuvuus = 0.998) {
 }
 
 function levySisaltoHtml(resepti) {
-  const emoji = KATEGORIA_EMOJI[resepti.kategoria] || '🍴';
-  const vari = kategorianVari(resepti.kategoria);
+  const paakategoria = listaksi(resepti.kategoriat)[0] || 'Muut';
+  const emoji = kategorianEmoji(paakategoria);
+  const vari = kategorianVari(paakategoria);
 
   const kuva = resepti.kuva_url
     ? `<img src="${suojaa(resepti.kuva_url)}" alt="">`
     : `<span aria-hidden="true">${emoji}</span>`;
 
   const meta = [
-    resepti.kategoria,
-    resepti.aika_min ? `${resepti.aika_min} min` : null
+    paakategoria,
+    muotoileAika(resepti.aika_min)
   ].filter(Boolean).join(' · ');
 
   return `
@@ -389,13 +390,24 @@ hakuElementti.addEventListener('input', piirraLista);
 
 // --- Alanavigaation korostus --------------------------------------
 
+const aktiivinenNavi = vainSuosikit ? 'suosikit'
+  : kategoriaOsoitteesta ? 'kategoriat'
+  : 'kaikki';
+
 document
-  .querySelector(`[data-navi="${vainSuosikit ? 'suosikit' : 'kaikki'}"]`)
+  .querySelector(`[data-navi="${aktiivinenNavi}"]`)
   .setAttribute('aria-current', 'page');
 
 if (vainSuosikit) {
   document.getElementById('otsikko').textContent = 'Suosikit';
   document.getElementById('alaotsikko').textContent = 'Ne parhaat, aina käden ulottuvilla';
+} else if (kategoriaOsoitteesta) {
+  document.getElementById('otsikko').textContent = kategoriaOsoitteesta;
+  document.title = `${kategoriaOsoitteesta} · Reseptipankki`;
+  // Yläpalkkiin paluulinkki, jotta kategorialistaan pääsee takaisin
+  // ilman että pohjapalkin kautta joutuu kiertämään.
+  document.querySelector('.ylapalkki').insertAdjacentHTML('afterbegin',
+    '<a class="takaisin" href="kategoriat.html"><span aria-hidden="true">‹</span> Kategoriat</a>');
 }
 
 // --- Käynnistys ----------------------------------------------------
@@ -407,6 +419,13 @@ async function kaynnista() {
   }
   try {
     kaikkiReseptit = await haeReseptit();
+
+    if (kategoriaOsoitteesta) {
+      const maara = kaikkiReseptit
+        .filter((r) => listaksi(r.kategoriat).includes(kategoriaOsoitteesta)).length;
+      document.getElementById('alaotsikko').textContent = reseptienMaaraTeksti(maara);
+    }
+
     piirraSuodattimet();
     piirraLista();
   } catch (virhe) {

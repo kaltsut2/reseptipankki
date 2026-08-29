@@ -1,9 +1,6 @@
 // ---------------------------------------------------------------
 //  Supabase-asetukset
 //
-//  Täytä nämä kaksi arvoa kun olet luonut Supabase-projektin.
-//  Ohjeet löytyvät README.md-tiedostosta kohdasta "Supabasen käyttöönotto".
-//
 //  Nämä avaimet ovat tarkoitettu julkisiksi — anon-avain on
 //  selaimessa näkyvä avain, jonka oikeuksia rajataan Supabasen
 //  päässä. Älä koskaan laita tähän service_role-avainta.
@@ -12,19 +9,81 @@
 const SUPABASE_URL = 'https://dywjdsbwxpoishlloasv.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_cw32W786oD39dWEhZl3uig_2unA2hkG';
 
-// Reseptien kategoriat. Voit muokata listaa vapaasti.
-const KATEGORIAT = [
-  'Arkiruoka',
-  'Keitot ja padat',
-  'Uuniruoat',
-  'Kanaruoat',
-  'Kalaruoat',
-  'Kasvisruoat',
-  'Salaatit',
-  'Leivonta',
-  'Jälkiruoat',
-  'Juhlaruoat',
-  'Muut'
+// ---------------------------------------------------------------
+//  Kategoriat
+//
+//  Kategoriat on jaettu kahteen ryhmään, jotka näkyvät sekä
+//  Kategoriat-sivulla että lisäyslomakkeen valikossa. Voit muokata
+//  listoja vapaasti — muista lisätä uudelle kategorialle myös emoji
+//  ja väri alempaa, muuten se saa oletukset.
+// ---------------------------------------------------------------
+
+const KATEGORIARYHMAT = [
+  {
+    nimi: 'Ruuat',
+    emoji: '🍽️',
+    kuvaus: 'Aamiaisesta illalliseen',
+    kategoriat: [
+      'Arkiruoka',
+      'Keitot ja padat',
+      'Uuniruoat',
+      'Kanaruoat',
+      'Kalaruoat',
+      'Kasvisruoat',
+      'Pastat ja risotot',
+      'Salaatit',
+      'Juhlaruoat',
+      'Muut'
+    ]
+  },
+  {
+    nimi: 'Leivonta',
+    emoji: '🥧',
+    kuvaus: 'Kahvipöytään ja jälkiruoaksi',
+    kategoriat: [
+      'Kakut',
+      'Piirakat',
+      'Pullat ja sämpylät',
+      'Leivät',
+      'Keksit ja pikkuleivät',
+      'Jälkiruoat'
+    ]
+  }
+];
+
+// Yhtenäinen lista kaikista kategorioista, johdettu ryhmistä.
+const KATEGORIAT = KATEGORIARYHMAT.flatMap((ryhma) => ryhma.kategoriat);
+
+// ---------------------------------------------------------------
+//  Pääraaka-aineet
+//
+//  Reseptille voi valita näistä useamman. Lista näkyy lisäyslomakkeella
+//  napautettavina painikkeina, ja valitut näkyvät reseptisivulla omina
+//  ruutuinaan. Voit muokata listaa vapaasti.
+// ---------------------------------------------------------------
+
+const RAAKA_AINEET = [
+  'Kana',
+  'Kalkkuna',
+  'Naudanliha',
+  'Porsaanliha',
+  'Jauheliha',
+  'Makkara',
+  'Lohi',
+  'Valkoinen kala',
+  'Katkarapu',
+  'Kananmuna',
+  'Juusto',
+  'Peruna',
+  'Riisi',
+  'Pasta',
+  'Kasvikset',
+  'Sienet',
+  'Pavut ja linssit',
+  'Marjat',
+  'Omena',
+  'Suklaa',
+  'Pähkinät'
 ];
 
 // Pieni kuvake jokaiselle kategorialle — näkyy kortissa jos kuvaa ei ole.
@@ -35,11 +94,16 @@ const KATEGORIA_EMOJI = {
   'Kanaruoat': '🍗',
   'Kalaruoat': '🐟',
   'Kasvisruoat': '🥦',
+  'Pastat ja risotot': '🍝',
   'Salaatit': '🥗',
-  'Leivonta': '🥧',
-  'Jälkiruoat': '🍰',
   'Juhlaruoat': '🎉',
-  'Muut': '🍴'
+  'Muut': '🍴',
+  'Kakut': '🎂',
+  'Piirakat': '🥧',
+  'Pullat ja sämpylät': '🥐',
+  'Leivät': '🍞',
+  'Keksit ja pikkuleivät': '🍪',
+  'Jälkiruoat': '🍰'
 };
 
 // Kortin taustasävy silloin kun reseptillä ei ole vielä kuvaa.
@@ -51,13 +115,29 @@ const KATEGORIA_VARI = {
   'Kanaruoat': 'persikka',
   'Kalaruoat': 'salvia',
   'Kasvisruoat': 'salvia',
+  'Pastat ja risotot': 'persikka',
   'Salaatit': 'salvia',
-  'Leivonta': 'pinkki',
-  'Jälkiruoat': 'pinkki',
   'Juhlaruoat': 'ruusu',
-  'Muut': 'persikka'
+  'Muut': 'persikka',
+  'Kakut': 'pinkki',
+  'Piirakat': 'pinkki',
+  'Pullat ja sämpylät': 'persikka',
+  'Leivät': 'persikka',
+  'Keksit ja pikkuleivät': 'pinkki',
+  'Jälkiruoat': 'pinkki'
 };
 
 function kategorianVari(kategoria) {
   return KATEGORIA_VARI[kategoria] || 'persikka';
+}
+
+function kategorianEmoji(kategoria) {
+  return KATEGORIA_EMOJI[kategoria] || '🍴';
+}
+
+// Mihin ryhmään kategoria kuuluu. Palauttaa null jos kategoriaa ei
+// löydy listoilta — esimerkiksi vanha kategoria, joka on poistettu.
+function kategorianRyhma(kategoria) {
+  const ryhma = KATEGORIARYHMAT.find((r) => r.kategoriat.includes(kategoria));
+  return ryhma ? ryhma.nimi : null;
 }
