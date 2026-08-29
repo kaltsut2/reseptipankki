@@ -143,6 +143,20 @@ Kevein kelpaava muoto on pelkkä lista, jossa vain nimi on pakollinen:
 - `lahde` liitetään vinkkikentän loppuun, koska sille ei ole omaa saraketta.
 - Kuvia ei voi tuoda tiedostosta — lisää ne jälkeenpäin reseptin omalta sivulta.
 
+## Claude-skilli reseptien muuntamiseen
+
+`.claude/skills/reseptipankki/SKILL.md` opettaa Clauden muuntamaan reseptin
+suoraan yllä kuvattuun tuontimuotoon — verkkosivulta, keittokirjan sivun
+valokuvasta tai käsinkirjoitetusta lapusta.
+
+Skilli on pelkkää ohjetekstiä ilman skriptejä, joten sama tiedosto toimii
+Claude Codessa ja puhelimessa. Se sisältää sallitut kategoriat ja
+raaka-aineet, yksikkömuunnokset sekä säännöt siitä miten epävarmat määrät
+merkitään näkyviin sen sijaan että ne arvattaisiin hiljaa.
+
+Käyttö puhelimella: valokuvaa keittokirjan sivu Claude-sovelluksessa, pyydä
+resepti pankkiin, kopioi vastauksen JSON-lohko ja liitä se tuontisivulle.
+
 ## Näyttökoot
 
 Asettelu on mitoitettu leveyden mukaan, ei laitemallin, joten se kestää myös
