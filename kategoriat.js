@@ -33,8 +33,16 @@ function korttiHtml(kategoria, maara, jarjestys) {
   </a>`;
 }
 
+// Ryhmän kokonaismäärä lasketaan eri resepteinä, ei kategorioiden
+// summana: yksi resepti voi kuulua useaan saman ryhmän kategoriaan
+// eikä sitä pidä laskea monta kertaa.
+function ryhmanReseptit(reseptit, kategoriat) {
+  return reseptit.filter((r) =>
+    listaksi(r.kategoriat).some((k) => kategoriat.includes(k))).length;
+}
+
 function ryhmaHtml(nimi, emoji, kuvaus, kategoriat, reseptit, tunniste) {
-  const yhteensa = kategoriat.reduce((s, k) => s + reseptienMaara(reseptit, k), 0);
+  const yhteensa = ryhmanReseptit(reseptit, kategoriat);
   const kortit = kategoriat
     .map((k, i) => korttiHtml(k, reseptienMaara(reseptit, k), i))
     .join('');
