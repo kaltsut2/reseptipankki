@@ -1140,6 +1140,88 @@ a.kategoriakortti:active {
 
 .lisaaja strong { color: var(--muste); font-weight: 650; }
 
+/* --- Tuonti ja vienti --------------------------------------------- */
+
+.sivulinkki {
+  margin: 6px 0 34px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muste-himmea);
+}
+
+.tuolaatikko { padding: 22px 16px; }
+
+.koodilohko {
+  background: var(--pinta);
+  border: 1px solid var(--viiva);
+  border-radius: 14px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.tuoyhteenveto {
+  background: var(--korostus-pehm);
+  border-radius: 14px;
+  padding: 13px 16px;
+  margin-bottom: 14px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.tuolista { list-style: none; margin: 0 0 16px; padding: 0; }
+
+.tuorivi + .tuorivi { border-top: 1px solid var(--viiva); }
+
+.tuorivi label {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 13px 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tuorivi input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin: 2px 0 0;
+  accent-color: var(--mauve);
+}
+
+.tuorivi-teksti { flex: 1; min-width: 0; }
+
+.tuorivi-nimi {
+  display: block;
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.tuorivi-meta {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--muste-himmea);
+}
+
+.liput { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+
+.lippu {
+  font-size: 0.76rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--tintti-persikka);
+  color: var(--korostus-teksti);
+}
+
+.lippu.kaksoiskappale { background: var(--tintti-ruusu); }
+
 /* ===============================================================
    Leveät näytöt
 

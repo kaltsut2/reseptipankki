@@ -57,6 +57,20 @@ async function lisaaResepti(resepti) {
   return rivit[0];
 }
 
+// Monta reseptiä yhdellä pyynnöllä. PostgREST käsittelee taulukon
+// yhtenä tapahtumana: joko kaikki menevät läpi tai ei yksikään.
+async function lisaaReseptit(reseptit) {
+  if (!reseptit.length) return [];
+  return pyynto(`${REST}/reseptit`, {
+    method: 'POST',
+    headers: otsakkeet({
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation'
+    }),
+    body: JSON.stringify(reseptit)
+  });
+}
+
 async function paivitaResepti(id, muutokset) {
   const rivit = await pyynto(
     `${REST}/reseptit?id=eq.${encodeURIComponent(id)}`,

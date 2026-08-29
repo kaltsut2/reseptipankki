@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tuo ja vie reseptejä · Reseptipankki</title>
+<meta name="theme-color" content="#FFF7F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1719" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Reseptit">
+<link rel="apple-touch-icon" sizes="180x180" href="ikoni-kokki-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="ikoni-kokki-192.png">
+<link rel="manifest" href="sovellus.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="resepti-sivu">
+
+<header class="ylapalkki">
+  <a class="takaisin" href="lisaa.html"><span aria-hidden="true">‹</span> Lisää resepti</a>
+  <h1>Tuo ja vie</h1>
+  <p>Useita reseptejä kerralla tiedostosta tai liitettynä tekstinä</p>
+</header>
+
+<main class="sisalto">
+  <div id="asetusvaroitus"></div>
+
+  <section class="osio">
+    <h2>Tuo reseptejä</h2>
+
+    <div class="kentta">
+      <label class="kuvavalinta tuolaatikko" id="tiedostolaatikko">
+        <span id="tiedostoTeksti">
+          <span class="iso" aria-hidden="true">📄</span>
+          Valitse JSON-tiedosto
+        </span>
+        <input type="file" id="tiedosto" accept=".json,application/json,.txt,text/plain">
+      </label>
+    </div>
+
+    <div class="kentta">
+      <label for="liitetty">…tai liitä JSON tähän</label>
+      <p class="ohjeteksti">Kätevin puhelimella: kopioi Claudelta ja liitä.</p>
+      <textarea id="liitetty" spellcheck="false" placeholder='{ "versio": 1, "reseptit": [ … ] }'></textarea>
+    </div>
+
+    <div class="toiminnot">
+      <button class="nappi paa" type="button" id="tarkista">Tarkista sisältö</button>
+    </div>
+
+    <p id="tuoTila" class="ohjeteksti" style="text-align:center"></p>
+
+    <div id="esikatselu"></div>
+  </section>
+
+  <section class="osio">
+    <h2>Vie varmuuskopio</h2>
+    <p class="ohjeteksti">
+      Tallentaa kaikki reseptit yhteen JSON-tiedostoon. Tällä hetkellä ainoa
+      kopio resepteistä on Supabasessa, joten varmuuskopio kannattaa ottaa
+      silloin tällöin.
+    </p>
+    <div class="toiminnot">
+      <button class="nappi" type="button" id="vie">💾 Lataa kaikki reseptit</button>
+    </div>
+    <p id="vieTila" class="ohjeteksti"></p>
+  </section>
+
+  <section class="osio">
+    <h2>Tiedostomuoto</h2>
+    <p class="ohjeteksti">
+      Yksinkertaisimmillaan riittää lista reseptejä. Kaikki kentät nimeä
+      lukuun ottamatta ovat vapaaehtoisia.
+    </p>
+    <pre class="koodilohko" id="malli"></pre>
+  </section>
+</main>
+
+<nav class="alanavi">
+  <a href="index.html"><span class="kuvake" aria-hidden="true">📖</span>Reseptit</a>
+  <a href="kategoriat.html"><span class="kuvake" aria-hidden="true">🗂️</span>Kategoriat</a>
+  <a href="index.html?suosikit=1"><span class="kuvake" aria-hidden="true">❤️</span>Suosikit</a>
+  <a href="lisaa.html"><span class="kuvake" aria-hidden="true">➕</span>Lisää uusi</a>
+</nav>
+
+<script src="config.js"></script>
+<script src="apu.js"></script>
+<script src="db.js"></script>
+<script src="tuo.js"></script>
+</body>
+</html>

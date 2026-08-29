@@ -104,6 +104,45 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
 - **Näyttö auki** -painike, jottei puhelin sammu kesken kokkaamisen.
 - Toimii sekä vaalealla että tummalla teemalla.
 
+## Useita reseptejä kerralla
+
+Sivu `tuo.html` (linkki Lisää resepti -sivun alalaidassa) lukee JSON-tiedoston
+tai kenttään liitetyn JSONin ja lisää useita reseptejä yhdellä kertaa. Mitään
+ei kirjoiteta ennen kuin sisältö on esikatseltu ja hyväksytty. Samanniminen
+resepti tunnistetaan ja jätetään oletuksena valitsematta.
+
+Sama sivu vie koko pankin JSON-tiedostoksi. Vietyä tiedostoa voi käyttää
+sellaisenaan tuontiin, joten se toimii varmuuskopiona.
+
+Kevein kelpaava muoto on pelkkä lista, jossa vain nimi on pakollinen:
+
+```json
+{
+  "versio": 1,
+  "reseptit": [
+    {
+      "nimi": "Mummon lihapullat",
+      "kategoriat": ["Arkiruoka"],
+      "paaraaka_aineet": ["Jauheliha"],
+      "aika": "1 h 15 min",
+      "annokset": 4,
+      "ainekset": ["400 g jauhelihaa", "1 sipuli"],
+      "ohje": ["Kuullota sipuli.", "Paista pullat."],
+      "vinkki": "Puolukkahillo kuuluu tähän.",
+      "lisaaja": "Äiti",
+      "lahde": "https://esimerkki.fi/lihapullat"
+    }
+  ]
+}
+```
+
+- `kategoriat` ja `paaraaka_aineet` tarkistetaan `config.js`:n listoja vastaan.
+  Kirjoitusasu korjataan automaattisesti, tuntemattomista varoitetaan.
+- `aika` saa olla mitä muotoa tahansa: `"90"`, `"1,5 h"`, `"1h30min"`, `"1:30"`.
+- `ainekset` ja `ohje` käyvät joko listana tai rivinvaihdoin eroteltuna tekstinä.
+- `lahde` liitetään vinkkikentän loppuun, koska sille ei ole omaa saraketta.
+- Kuvia ei voi tuoda tiedostosta — lisää ne jälkeenpäin reseptin omalta sivulta.
+
 ## Näyttökoot
 
 Asettelu on mitoitettu leveyden mukaan, ei laitemallin, joten se kestää myös
