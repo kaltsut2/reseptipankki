@@ -88,13 +88,29 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
 
 ## Mitä sovelluksessa on
 
-- **Arvo minulle ruoka** — arpoo satunnaisen reseptin. Toimii myös suodatettuna,
-  eli "arvo jokin kanaruoka" onnistuu valitsemalla ensin kategorian.
+- **Arvo minulle ruoka** — arpoo satunnaisen reseptin ja nostaa sen levylle
+  ruudun alareunasta. Levyn voi työntää sormella pois samalla eleellä jolla se
+  tuli, ja uuden arvonnan saa painamalla “Arvo toinen”. Sama ruoka ei tule
+  kahdesti peräkkäin. Toimii myös suodatettuna, eli "arvo jokin kanaruoka"
+  onnistuu valitsemalla ensin kategorian.
 - **Haku** nimen, kategorian, pääraaka-aineen ja ainesosien perusteella.
 - **Suosikit** omalla välilehdellään.
 - **Ainesten kuittaus** — napauta ainesta kokatessasi, niin se yliviivautuu.
 - **Näyttö auki** -painike, jottei puhelin sammu kesken kokkaamisen.
 - Toimii sekä vaalealla että tummalla teemalla.
+
+## Väreistä
+
+Paletti on äidin itsensä valitsema: salvia `#d8e2dc`, persikka `#ffe5d9`,
+pinkki `#ffcad4`, ruusu `#f4acb7` ja mauve `#9d8189`. Pastellit ovat liian
+vaaleita kantamaan valkoista tekstiä, joten sävyjä käytetään pintoina ja
+teksti on syvä luumun sävy. Näin kontrasti riittää myös keittiön valossa.
+Värit ovat tiedoston `style.css` alussa omina muuttujinaan, joten niitä on
+helppo vaihtaa.
+
+Jokainen kategoria saa oman pastellitaustansa niihin resepteihin, joihin ei
+ole vielä lisätty kuvaa — sen määrittelee `KATEGORIA_VARI` tiedostossa
+`config.js`.
 
 ## Turvallisuudesta
 

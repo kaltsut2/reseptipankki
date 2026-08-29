@@ -22,6 +22,7 @@ document.getElementById('kategoria').innerHTML = KATEGORIAT
 // --- Kuvan esikatselu --------------------------------------------
 
 function naytaEsikatselu(lahde) {
+  document.getElementById('kuvalaatikko').classList.add('taytetty');
   document.getElementById('kuvaTeksti').innerHTML =
     `<img src="${lahde}" alt="Valittu kuva">`;
 }

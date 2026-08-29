@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reseptipankki</title>
 <meta name="description" content="Äidin omat lempireseptit yhdessä paikassa.">
-<meta name="theme-color" content="#FBF7F0" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#17140F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFF7F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1D1719" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Reseptit">
@@ -26,7 +26,7 @@
   <div id="asetusvaroitus"></div>
 
   <button class="arvo-painike" id="arvo" type="button">
-    <span aria-hidden="true">🎲</span>
+    <span class="noppa" aria-hidden="true">🎲</span>
     <span>Arvo minulle ruoka</span>
   </button>
 
@@ -41,6 +41,14 @@
 <main class="sisalto">
   <div id="lista" class="latautuu">Haetaan reseptejä…</div>
 </main>
+
+<div class="verho" id="verho" hidden></div>
+
+<section class="arpalevy" id="arpalevy" role="dialog" aria-modal="true"
+         aria-label="Arvottu ruoka" hidden>
+  <div class="kahva" aria-hidden="true"></div>
+  <div id="arpasisalto"></div>
+</section>
 
 <nav class="alanavi">
   <a href="index.html" data-navi="kaikki"><span class="kuvake" aria-hidden="true">📖</span>Reseptit</a>

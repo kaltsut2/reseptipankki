@@ -4,7 +4,6 @@
 
 const osoiteParametrit = new URLSearchParams(location.search);
 const reseptiId = osoiteParametrit.get('id');
-const oliArvottu = osoiteParametrit.get('arvottu') === '1';
 
 const sisaltoElementti = document.getElementById('sisalto');
 let resepti = null;
@@ -27,10 +26,11 @@ function riveiksi(teksti) {
 
 function piirra() {
   const emoji = KATEGORIA_EMOJI[resepti.kategoria] || '🍴';
+  const vari = kategorianVari(resepti.kategoria);
 
   const kuvaOsa = resepti.kuva_url
-    ? `<img class="hero" src="${suojaa(resepti.kuva_url)}" alt="${suojaa(resepti.nimi)}">`
-    : `<div class="hero-tyhja" aria-hidden="true">${emoji}</div>`;
+    ? `<img class="hero saapuva-kuva" src="${suojaa(resepti.kuva_url)}" alt="${suojaa(resepti.nimi)}">`
+    : `<div class="hero-tyhja saapuva-kuva ${vari}" aria-hidden="true">${emoji}</div>`;
 
   const tiedot = [
     resepti.kategoria,
@@ -45,9 +45,7 @@ function piirra() {
   sisaltoElementti.className = '';
   sisaltoElementti.innerHTML = `
     ${kuvaOsa}
-    <div class="sisalto">
-      ${oliArvottu ? '<div class="huomio" style="margin-top:16px">🎲 Arvottu ehdotus — paina uudelleen etusivulla jos haluat toisen.</div>' : ''}
-
+    <div class="sisalto saapuva-teksti">
       <div class="resepti-otsikko">
         <h1>${suojaa(resepti.nimi)}</h1>
       </div>
@@ -66,7 +64,7 @@ function piirra() {
         <h2>Ainekset</h2>
         <ul class="ainekset">
           ${ainekset.map((aines) => `
-            <li><span class="ruutu" aria-hidden="true">✓</span><span>${suojaa(aines)}</span></li>
+            <li><span class="ruutu" aria-hidden="true">✓</span><span class="teksti">${suojaa(aines)}</span></li>
           `).join('')}
         </ul>
       </section>` : ''}

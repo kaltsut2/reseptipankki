@@ -41,3 +41,23 @@ const KATEGORIA_EMOJI = {
   'Juhlaruoat': '🎉',
   'Muut': '🍴'
 };
+
+// Kortin taustasävy silloin kun reseptillä ei ole vielä kuvaa.
+// Arvot viittaavat style.css:n väreihin: salvia, persikka, pinkki, ruusu.
+const KATEGORIA_VARI = {
+  'Arkiruoka': 'salvia',
+  'Keitot ja padat': 'persikka',
+  'Uuniruoat': 'ruusu',
+  'Kanaruoat': 'persikka',
+  'Kalaruoat': 'salvia',
+  'Kasvisruoat': 'salvia',
+  'Salaatit': 'salvia',
+  'Leivonta': 'pinkki',
+  'Jälkiruoat': 'pinkki',
+  'Juhlaruoat': 'ruusu',
+  'Muut': 'persikka'
+};
+
+function kategorianVari(kategoria) {
+  return KATEGORIA_VARI[kategoria] || 'persikka';
+}
