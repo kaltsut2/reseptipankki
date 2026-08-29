@@ -51,8 +51,8 @@ sovelluksessa jälkeenpäin.
 
 Valitse **vain** näistä. Kirjoita täsmälleen tässä muodossa.
 
-**Ruuat:** Arkiruoka · Keitot ja padat · Uuniruoat · Kanaruoat · Kalaruoat ·
-Kasvisruoat · Pastat ja risotot · Salaatit · Juhlaruoat · Muut
+**Ruuat:** Arkiruoka · Keitot ja padat · Uuniruoat · Liharuuat · Kanaruoat ·
+Kalaruoat · Kasvisruoat · Pastat ja risotot · Salaatit · Juhlaruoat · Muut
 
 **Leivonta:** Kakut · Piirakat · Pullat ja sämpylät · Leivät ·
 Keksit ja pikkuleivät · Jälkiruoat
@@ -72,6 +72,9 @@ Valitse **vain** näistä, yhdestä neljään tärkeintä:
 Kana · Kalkkuna · Naudanliha · Porsaanliha · Jauheliha · Makkara · Lohi ·
 Valkoinen kala · Katkarapu · Kananmuna · Juusto · Peruna · Riisi · Pasta ·
 Kasvikset · Sienet · Pavut ja linssit · Marjat · Omena · Suklaa · Pähkinät
+
+`Liharuuat` on naudan, porsaan, jauhelihan ja makkaran kategoria — kana ja
+kalkkuna kuuluvat omaan kategoriaansa `Kanaruoat`.
 
 Merkitse se mitä ruoassa on eniten ja mikä ratkaisee valinnan jääkaappia
 katsoessa. Mausteita, voita tai kermaa ei merkitä pääraaka-aineiksi.
