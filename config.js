@@ -174,14 +174,10 @@ const GENETIIVI_POIKKEUKSET = {
 };
 
 // Lisääjän nimen vastaavuudet. Vasemmalla se mitä kirjoitetaan, oikealla
-// se mikä tallennetaan. Vertailu ei välitä kirjainkoosta.
+// se mikä tallennetaan. Vertailu ei välitä kirjainkoosta, ja vastaavuus
+// toimii myös useamman lisääjän kohdalla: "irja ja kalle" tallentuu
+// muodossa "Mummi ja Kalle".
 const LISAAJA_VASTAAVUUS = {
   'riitta': 'Äiti',
   'irja': 'Mummi'
 };
-
-function normalisoiLisaaja(nimi) {
-  const siisti = String(nimi || '').trim();
-  if (!siisti) return null;
-  return LISAAJA_VASTAAVUUS[siisti.toLowerCase()] || siisti;
-}

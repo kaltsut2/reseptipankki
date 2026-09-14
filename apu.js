@@ -155,15 +155,57 @@ function taivutaGenetiiviin(sana) {
   return sana + 'n';
 }
 
-// Koko nimi genetiiviin. Monisanaisesta nimestä taipuu vain viimeinen
+// Lisääjiä voi olla useampi. Erotin otetaan talteen sellaisenaan, jotta
+// "Ville ja Valle" palautuu samalla sanajärjestyksellä ja välimerkeillä.
+// Parilliset alkiot ovat nimiä, parittomat erottimia.
+const LISAAJIEN_EROTIN = /(\s+ja\s+|\s+sekä\s+|\s*&\s*|\s*\+\s*|\s*,\s*)/i;
+
+function jaaLisaajat(teksti) {
+  return String(teksti || '').split(LISAAJIEN_EROTIN);
+}
+
+// Yksi nimi genetiiviin. Monisanaisesta nimestä taipuu vain viimeinen
 // sana, kuten suomessa kuuluukin: Hilja Vienonen → Hilja Vienosen.
+function taivutaNimi(nimi) {
+  const osat = String(nimi).trim().split(/\s+/).filter(Boolean);
+  if (!osat.length) return nimi;
+  const viimeinen = osat.pop();
+  return [...osat, taivutaGenetiiviin(viimeinen)].join(' ');
+}
+
+// Koko lisääjäkenttä genetiiviin. Jokainen nimi taipuu erikseen:
+// "Ville ja Valle" → "Villen ja Vallen", ei "Ville ja Vallen".
 function genetiivi(nimi) {
   const siisti = String(nimi || '').trim();
   if (!siisti) return null;
 
-  const osat = siisti.split(/\s+/);
-  const viimeinen = osat.pop();
-  return [...osat, taivutaGenetiiviin(viimeinen)].join(' ');
+  return jaaLisaajat(siisti)
+    .map((osa, i) => (i % 2 === 1 ? osa : taivutaNimi(osa)))
+    .join('');
+}
+
+// Nimen jokainen sana isolla alkukirjaimella. Loppu jätetään ennalleen,
+// jotta McDonald ja Mäkinen-Virtanen säilyvät sellaisinaan.
+function isollaAlkukirjaimella(teksti) {
+  return teksti.replace(/(^|[\s-])(\p{L})/gu,
+    (osuma, edellinen, kirjain) => edellinen + kirjain.toUpperCase());
+}
+
+// Kirjoitettu nimi tallennusmuotoon vastaavuustaulun mukaan. Toimii myös
+// useammalle lisääjälle, jolloin jokainen nimi katsotaan erikseen.
+function normalisoiLisaaja(nimi) {
+  const siisti = String(nimi || '').trim();
+  if (!siisti) return null;
+
+  const taulu = typeof LISAAJA_VASTAAVUUS !== 'undefined' ? LISAAJA_VASTAAVUUS : {};
+
+  return jaaLisaajat(siisti)
+    .map((osa, i) => {
+      if (i % 2 === 1) return osa;
+      const puhdas = osa.trim();
+      return taulu[puhdas.toLowerCase()] || isollaAlkukirjaimella(puhdas);
+    })
+    .join('');
 }
 
 // Vinkkiosion otsikko: "Kallen vinkki", "Äidin vinkki". Ilman lisääjää
