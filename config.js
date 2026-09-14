@@ -172,3 +172,15 @@ const GENETIIVI_POIKKEUKSET = {
   'lapsi': 'lapsen',
   'ystävä': 'ystävän'
 };
+
+// Lisääjän nimen vastaavuudet. Vasemmalla se mitä kirjoitetaan, oikealla
+// se mikä tallennetaan. Vertailu ei välitä kirjainkoosta.
+const LISAAJA_VASTAAVUUS = {
+  'riitta': 'Äiti'
+};
+
+function normalisoiLisaaja(nimi) {
+  const siisti = String(nimi || '').trim();
+  if (!siisti) return null;
+  return LISAAJA_VASTAAVUUS[siisti.toLowerCase()] || siisti;
+}

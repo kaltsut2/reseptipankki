@@ -169,7 +169,7 @@ lomake.addEventListener('submit', async (tapahtuma) => {
       ainekset: document.getElementById('ainekset').value.trim() || null,
       ohje: document.getElementById('ohje').value.trim() || null,
       vinkki: document.getElementById('vinkki').value.trim() || null,
-      lisaaja: lisaaja || null,
+      lisaaja: normalisoiLisaaja(lisaaja),
       kuva_url: kuvaUrl
     };
 

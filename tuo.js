@@ -122,7 +122,7 @@ function normalisoi(raaka, jarjestys) {
     ainekset: tekstiksi(raaka.ainekset),
     ohje: tekstiksi(raaka.ohje),
     vinkki,
-    lisaaja: tekstiksi(raaka.lisaaja),
+    lisaaja: normalisoiLisaaja(tekstiksi(raaka.lisaaja)),
     kuva_url: null
   };
 
