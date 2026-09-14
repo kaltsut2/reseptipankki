@@ -97,9 +97,11 @@ kuvaSyote.addEventListener('change', () => {
 // --- Lisääjän muistaminen ------------------------------------------
 //
 //  Nimi tallennetaan selaimen muistiin ensimmäisen lisäyksen
-//  yhteydessä, jolloin se on jatkossa valmiina. Kenttä on silti
-//  tavallinen tekstikenttä, joten toisen laitetta lainatessa nimen voi
-//  vaihtaa käsin ilman että se muuttaa laitteen omaa oletusta pysyvästi.
+//  yhteydessä, jolloin se on jatkossa valmiina. Muistiin menee sama
+//  muoto kuin kantaan, eli vastaavuustaulun läpi kulkenut nimi. Kenttä
+//  on silti tavallinen tekstikenttä, joten toisen laitetta lainatessa
+//  nimen voi vaihtaa käsin ilman että se muuttaa laitteen omaa
+//  oletusta pysyvästi.
 
 function muistettuLisaaja() {
   try {
@@ -158,7 +160,7 @@ lomake.addEventListener('submit', async (tapahtuma) => {
       kuvaUrl = await lahetaKuva(valittuKuvatiedosto);
     }
 
-    const lisaaja = lisaajaKentta.value.trim();
+    const lisaaja = normalisoiLisaaja(lisaajaKentta.value);
 
     const tiedot = {
       nimi,
@@ -169,7 +171,7 @@ lomake.addEventListener('submit', async (tapahtuma) => {
       ainekset: document.getElementById('ainekset').value.trim() || null,
       ohje: document.getElementById('ohje').value.trim() || null,
       vinkki: document.getElementById('vinkki').value.trim() || null,
-      lisaaja: normalisoiLisaaja(lisaaja),
+      lisaaja,
       kuva_url: kuvaUrl
     };
 

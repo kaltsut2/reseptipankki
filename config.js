@@ -176,7 +176,8 @@ const GENETIIVI_POIKKEUKSET = {
 // Lisääjän nimen vastaavuudet. Vasemmalla se mitä kirjoitetaan, oikealla
 // se mikä tallennetaan. Vertailu ei välitä kirjainkoosta.
 const LISAAJA_VASTAAVUUS = {
-  'riitta': 'Äiti'
+  'riitta': 'Äiti',
+  'irja': 'Mummi'
 };
 
 function normalisoiLisaaja(nimi) {
