@@ -116,3 +116,60 @@ function muotoileAika(minuutit) {
 function reseptienMaaraTeksti(maara) {
   return maara === 1 ? '1 resepti' : `${maara} reseptiä`;
 }
+
+// --- Genetiivi ----------------------------------------------------
+//
+//  Lisääjän nimi omistusmuotoon vinkkiotsikkoa varten. Suomen
+//  genetiivi ei ole pelkkä n perään: Pekka taipuu Pekaksi ja
+//  Virtanen Virtaseksi ennen päätettä.
+
+function sailytaAlkukirjain(alkuperainen, muoto) {
+  const isoAlku = alkuperainen.charAt(0) !== alkuperainen.charAt(0).toLowerCase();
+  return isoAlku ? muoto.charAt(0).toUpperCase() + muoto.slice(1) : muoto;
+}
+
+function taivutaGenetiiviin(sana) {
+  const pieni = sana.toLowerCase();
+
+  const poikkeus = typeof GENETIIVI_POIKKEUKSET !== 'undefined'
+    && GENETIIVI_POIKKEUKSET[pieni];
+  if (poikkeus) return sailytaAlkukirjain(sana, poikkeus);
+
+  // Sukunimet: Virtanen → Virtasen, Syrjänen → Syrjäsen
+  if (pieni.length > 3 && pieni.endsWith('nen')) {
+    return sana.slice(0, -3) + 'sen';
+  }
+
+  const vokaalit = 'aeiouyäöå';
+
+  // Konsonanttiin päättyvät, useimmiten vieraskieliset nimet saavat
+  // sidevokaalin: Alex → Alexin, Kim → Kimin, Robert → Robertin.
+  if (!vokaalit.includes(pieni.slice(-1))) return sana + 'in';
+
+  // Kaksoiskonsonantin heikentyminen: Pekka → Pekan, Matti → Matin,
+  // Seppo → Sepon. Muut kaksoiskirjaimet eivät heikkene: Anna → Annan.
+  if (['kk', 'pp', 'tt'].includes(pieni.slice(-3, -1))) {
+    return sana.slice(0, -3) + sana.slice(-2) + 'n';
+  }
+
+  return sana + 'n';
+}
+
+// Koko nimi genetiiviin. Monisanaisesta nimestä taipuu vain viimeinen
+// sana, kuten suomessa kuuluukin: Hilja Vienonen → Hilja Vienosen.
+function genetiivi(nimi) {
+  const siisti = String(nimi || '').trim();
+  if (!siisti) return null;
+
+  const osat = siisti.split(/\s+/);
+  const viimeinen = osat.pop();
+  return [...osat, taivutaGenetiiviin(viimeinen)].join(' ');
+}
+
+// Vinkkiosion otsikko: "Kallen vinkki", "Äidin vinkki". Ilman lisääjää
+// pelkkä "Vinkki".
+function vinkinOtsikko(lisaaja) {
+  const muoto = genetiivi(lisaaja);
+  if (!muoto) return 'Vinkki';
+  return `${muoto.charAt(0).toUpperCase()}${muoto.slice(1)} vinkki`;
+}

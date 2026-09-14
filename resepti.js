@@ -102,7 +102,7 @@ function piirra() {
 
       ${resepti.vinkki ? `
       <section class="osio">
-        <h2>Äidin vinkki</h2>
+        <h2>${suojaa(vinkinOtsikko(resepti.lisaaja))}</h2>
         <div class="vinkki">${suojaa(resepti.vinkki)}</div>
       </section>` : ''}
 
@@ -149,7 +149,7 @@ function jaettavaTeksti() {
     }
   }
 
-  if (resepti.vinkki) osat.push('', `Vinkki: ${resepti.vinkki}`);
+  if (resepti.vinkki) osat.push('', `${vinkinOtsikko(resepti.lisaaja)}: ${resepti.vinkki}`);
   if (resepti.lisaaja) osat.push('', `Reseptin lisäsi ${resepti.lisaaja}`);
 
   return osat.join('\n');

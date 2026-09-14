@@ -150,3 +150,25 @@ function kategorianRyhma(kategoria) {
   const ryhma = KATEGORIARYHMAT.find((r) => r.kategoriat.includes(kategoria));
   return ryhma ? ryhma.nimi : null;
 }
+
+// ---------------------------------------------------------------
+//  Vinkkiotsikon taivutus
+//
+//  Reseptisivun vinkkiotsikko taipuu lisääjän mukaan: Kallen vinkki,
+//  Alexin vinkki, Äidin vinkki. Taivutus tehdään säännöillä, mutta
+//  epäsäännölliset sanat luetellaan tässä. Jos jokin nimi taipuu
+//  väärin, lisää sille oikea muoto tähän — se voittaa säännöt.
+// ---------------------------------------------------------------
+
+const GENETIIVI_POIKKEUKSET = {
+  'äiti': 'äidin',
+  'isoäiti': 'isoäidin',
+  'täti': 'tädin',
+  'setä': 'sedän',
+  'veli': 'veljen',
+  'poika': 'pojan',
+  'tytär': 'tyttären',
+  'mies': 'miehen',
+  'lapsi': 'lapsen',
+  'ystävä': 'ystävän'
+};

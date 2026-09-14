@@ -100,6 +100,9 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
   Mukana menee sekä koko resepti tekstinä että linkki, joten vastaanottajan ei
   ole pakko avata mitään nähdäkseen ohjeen. Tietokoneella resepti kopioituu
   leikepöydälle.
+- **Vinkkiotsikko taipuu lisääjän mukaan** — Kallen vinkki, Äidin vinkki,
+  Alexin vinkki. Taivutus on sääntöpohjainen; epäsäännölliset sanat ja väärin
+  taipuvat nimet voi luetella `config.js`:n `GENETIIVI_POIKKEUKSET`-taulussa.
 - **Osiot resepteissä** — tähdellä alkava rivi ainesten tai työvaiheiden
   joukossa on väliotsikko: `*Pohja`, `*Täyte`. Työvaiheiden numerointi alkaa
   jokaisessa osiossa alusta.
