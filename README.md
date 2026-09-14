@@ -100,6 +100,9 @@ Reseptiä voi myöhemmin muokata tai poistaa sen omalta sivulta.
   Mukana menee sekä koko resepti tekstinä että linkki, joten vastaanottajan ei
   ole pakko avata mitään nähdäkseen ohjeen. Tietokoneella resepti kopioituu
   leikepöydälle.
+- **Osiot resepteissä** — tähdellä alkava rivi ainesten tai työvaiheiden
+  joukossa on väliotsikko: `*Pohja`, `*Täyte`. Työvaiheiden numerointi alkaa
+  jokaisessa osiossa alusta.
 - **Ainesten kuittaus** — napauta ainesta kokatessasi, niin se yliviivautuu.
 - **Näyttö auki** -painike, jottei puhelin sammu kesken kokkaamisen.
 - Toimii sekä vaalealla että tummalla teemalla.

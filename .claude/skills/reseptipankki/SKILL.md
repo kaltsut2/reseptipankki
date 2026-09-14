@@ -55,7 +55,7 @@ Valitse **vain** näistä. Kirjoita täsmälleen tässä muodossa.
 Kalaruoat · Kasvisruoat · Pastat ja risotot · Salaatit · Juhlaruoat · Muut
 
 **Leivonta:** Kakut · Piirakat · Pullat ja sämpylät · Leivät ·
-Keksit ja pikkuleivät · Jälkiruoat
+Suolaiset leivonnaiset · Keksit ja pikkuleivät · Jälkiruoat · Ninja Creami
 
 Anna **yhdestä kolmeen** kategoriaa. Ota aina mukaan se tarkin, ja lisää
 `Arkiruoka` jos ruoka on tavallista viikkoruokaa. Kanapasta on sekä
@@ -72,6 +72,13 @@ Valitse **vain** näistä, yhdestä neljään tärkeintä:
 Kana · Kalkkuna · Naudanliha · Porsaanliha · Jauheliha · Makkara · Lohi ·
 Valkoinen kala · Katkarapu · Kananmuna · Juusto · Peruna · Riisi · Pasta ·
 Kasvikset · Sienet · Pavut ja linssit · Marjat · Omena · Suklaa · Pähkinät
+
+`Piirakat` tarkoittaa makeita piirakoita. Suolaiset piiraat, karjalanpiirakat,
+lihapiirakat ja juustopiiraat kuuluvat kategoriaan `Suolaiset leivonnaiset`,
+ja niille kannattaa antaa lisäksi `Arkiruoka` jos ne ovat ruokaa eivätkä kahvipöytään.
+
+`Ninja Creami` on Ninja Creami -koneella tehtäville jäätelöille, sorbeteille,
+pirtelöille ja frappeille. Muut jälkiruoat menevät kategoriaan `Jälkiruoat`.
 
 `Liharuuat` on naudan, porsaan, jauhelihan ja makkaran kategoria — kana ja
 kalkkuna kuuluvat omaan kategoriaansa `Kanaruoat`.
@@ -113,6 +120,21 @@ käyttökelvottomia:
 
 Merkitse muunnetut määrät Epävarmat kohdat -osioon, koska muunnos on aina
 likiarvo.
+
+## Osiot
+
+Jos reseptissä on erilliset osat — pohja ja täyte, lihapullat ja muusi,
+taikina ja kuorrute — merkitse ne **tähdellä alkavalla rivillä** omana
+alkionaan sekä aineksissa että ohjeessa:
+
+```json
+"ainekset": ["*Pohja", "3 dl vehnäjauhoja", "2 munaa", "*Täyte", "5 dl mansikoita"],
+"ohje": ["*Pohja", "Sekoita jauhot ja munat.", "*Täyte", "Vatkaa kerma."]
+```
+
+Sovellus näyttää tähdellä alkavan rivin väliotsikkona, ja työvaiheiden
+numerointi alkaa jokaisessa osiossa alusta. Käytä osioita vain kun lähteessä
+on aidosti erilliset osat — älä pilko tavallista reseptiä keinotekoisesti.
 
 ## Ohje
 

@@ -9,12 +9,49 @@ function suojaa(teksti) {
 }
 
 // Monirivinen teksti listaksi: tyhjät rivit pois ja käsin kirjoitetut
-// luetteloviivat siivotaan.
+// luetteloviivat siivotaan. Tähti jätetään paikalleen, koska se merkitsee
+// väliotsikkoa — ks. osioiksi().
 function riveiksi(teksti) {
   return String(teksti || '')
     .split('\n')
-    .map((rivi) => rivi.replace(/^\s*[-–•*]\s*/, '').trim())
+    .map((rivi) => rivi.replace(/^\s*[-–•]\s*/, '').trim())
     .filter(Boolean);
+}
+
+// Ainekset ja työvaiheet osiin. Tähdellä alkava rivi on väliotsikko, jolla
+// resepti jaetaan osiin: *Pohja … *Täyte. Ennen ensimmäistä otsikkoa tulevat
+// rivit menevät nimettömään osioon.
+//
+// Palauttaa listan muotoa [{ otsikko: string|null, rivit: [string] }].
+function osioiksi(teksti) {
+  const osiot = [];
+  let nykyinen = { otsikko: null, rivit: [] };
+
+  const talteen = () => {
+    if (nykyinen.otsikko !== null || nykyinen.rivit.length) osiot.push(nykyinen);
+  };
+
+  for (const raaka of String(teksti || '').split('\n')) {
+    const rivi = raaka.trim();
+    if (!rivi || rivi === '*') continue;
+
+    const otsikko = rivi.match(/^\*\s*(.+)$/);
+    if (otsikko) {
+      talteen();
+      nykyinen = { otsikko: otsikko[1].trim(), rivit: [] };
+      continue;
+    }
+
+    nykyinen.rivit.push(rivi.replace(/^[-–•]\s*/, '').trim());
+  }
+
+  talteen();
+  return osiot;
+}
+
+// Onko osioissa yhtään sisältöä otsikoiden lisäksi?
+function osioissaSisaltoa(osiot) {
+  return osiot.some((osio) => osio.rivit.length > 0);
 }
 
 // Taulukkokenttä turvallisesti listaksi. Vanhoissa resepteissä arvo voi

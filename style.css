@@ -452,6 +452,19 @@ button, input, select, textarea {
   border-bottom: 2px solid var(--pinkki);
 }
 
+/* Väliotsikko ainesten ja työvaiheiden sisällä: *Pohja, *Täyte. Erottuu
+   leipätekstistä mauven sävyllä muttei kilpaile osion pääotsikon kanssa. */
+.osio-otsikko {
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  font-size: 1.06rem;
+  font-weight: 600;
+  letter-spacing: -0.006em;
+  color: var(--mauve);
+  margin: 22px 0 9px;
+}
+
+.osio h2 + .osio-otsikko { margin-top: 2px; }
+
 /* Ainekset: rivin voi kuitata tehdyksi kesken kokkaamisen */
 .ainekset { list-style: none; margin: 0; padding: 0; }
 

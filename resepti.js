@@ -9,6 +9,28 @@ const sisaltoElementti = document.getElementById('sisalto');
 let resepti = null;
 let naytonLukko = null;
 
+// Jokainen osio saa oman listansa. Työvaiheissa se tarkoittaa myös omaa
+// numerointia: pohjan vaiheet 1–3, täytteen vaiheet taas 1:stä alkaen.
+function ainesosiotHtml(osiot) {
+  return osiot.map((osio) => `
+    ${osio.otsikko ? `<h3 class="osio-otsikko">${suojaa(osio.otsikko)}</h3>` : ''}
+    ${osio.rivit.length ? `
+      <ul class="ainekset">
+        ${osio.rivit.map((aines) => `
+          <li><span class="ruutu" aria-hidden="true">✓</span><span class="teksti">${suojaa(aines)}</span></li>
+        `).join('')}
+      </ul>` : ''}`).join('');
+}
+
+function ohjeosiotHtml(osiot) {
+  return osiot.map((osio) => `
+    ${osio.otsikko ? `<h3 class="osio-otsikko">${suojaa(osio.otsikko)}</h3>` : ''}
+    ${osio.rivit.length ? `
+      <ol class="askeleet">
+        ${osio.rivit.map((askel) => `<li><div>${suojaa(askel)}</div></li>`).join('')}
+      </ol>` : ''}`).join('');
+}
+
 function piirra() {
   const kategoriat = listaksi(resepti.kategoriat);
   const raakaAineet = listaksi(resepti.paaraaka_aineet);
@@ -40,8 +62,8 @@ function piirra() {
       ${raakaAineet.map((a) => `<span class="tieto raaka-aine">${suojaa(a)}</span>`).join('')}
     </div>` : '';
 
-  const ainekset = riveiksi(resepti.ainekset);
-  const askeleet = riveiksi(resepti.ohje);
+  const ainesosiot = osioiksi(resepti.ainekset);
+  const ohjeosiot = osioiksi(resepti.ohje);
 
   sisaltoElementti.className = '';
   sisaltoElementti.innerHTML = `
@@ -65,22 +87,16 @@ function piirra() {
       </div>
 
       <div class="resepti-palstat">
-      ${ainekset.length ? `
+      ${osioissaSisaltoa(ainesosiot) ? `
       <section class="osio">
         <h2>Ainekset</h2>
-        <ul class="ainekset">
-          ${ainekset.map((aines) => `
-            <li><span class="ruutu" aria-hidden="true">✓</span><span class="teksti">${suojaa(aines)}</span></li>
-          `).join('')}
-        </ul>
+        ${ainesosiotHtml(ainesosiot)}
       </section>` : ''}
 
-      ${askeleet.length ? `
+      ${osioissaSisaltoa(ohjeosiot) ? `
       <section class="osio">
         <h2>Näin teet</h2>
-        <ol class="askeleet">
-          ${askeleet.map((askel) => `<li><div>${suojaa(askel)}</div></li>`).join('')}
-        </ol>
+        ${ohjeosiotHtml(ohjeosiot)}
       </section>` : ''}
       </div>
 
@@ -114,14 +130,23 @@ function jaettavaTeksti() {
   ].filter(Boolean).join(' · ');
   if (tiedot) osat.push(tiedot);
 
-  const ainekset = riveiksi(resepti.ainekset);
-  if (ainekset.length) {
-    osat.push('', 'AINEKSET', ...ainekset.map((rivi) => `- ${rivi}`));
+  const ainesosiot = osioiksi(resepti.ainekset);
+  if (osioissaSisaltoa(ainesosiot)) {
+    osat.push('', 'AINEKSET');
+    for (const osio of ainesosiot) {
+      if (osio.otsikko) osat.push('', osio.otsikko);
+      osat.push(...osio.rivit.map((rivi) => `- ${rivi}`));
+    }
   }
 
-  const askeleet = riveiksi(resepti.ohje);
-  if (askeleet.length) {
-    osat.push('', 'NÄIN TEET', ...askeleet.map((rivi, i) => `${i + 1}. ${rivi}`));
+  const ohjeosiot = osioiksi(resepti.ohje);
+  if (osioissaSisaltoa(ohjeosiot)) {
+    osat.push('', 'NÄIN TEET');
+    for (const osio of ohjeosiot) {
+      if (osio.otsikko) osat.push('', osio.otsikko);
+      // Numerointi alkaa alusta jokaisessa osiossa, kuten sovelluksessakin.
+      osat.push(...osio.rivit.map((rivi, i) => `${i + 1}. ${rivi}`));
+    }
   }
 
   if (resepti.vinkki) osat.push('', `Vinkki: ${resepti.vinkki}`);

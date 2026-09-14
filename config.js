@@ -46,8 +46,10 @@ const KATEGORIARYHMAT = [
       'Piirakat',
       'Pullat ja sämpylät',
       'Leivät',
+      'Suolaiset leivonnaiset',
       'Keksit ja pikkuleivät',
-      'Jälkiruoat'
+      'Jälkiruoat',
+      'Ninja Creami'
     ]
   }
 ];
@@ -104,8 +106,10 @@ const KATEGORIA_EMOJI = {
   'Piirakat': '🥧',
   'Pullat ja sämpylät': '🥐',
   'Leivät': '🍞',
+  'Suolaiset leivonnaiset': '🫓',
   'Keksit ja pikkuleivät': '🍪',
-  'Jälkiruoat': '🍰'
+  'Jälkiruoat': '🍰',
+  'Ninja Creami': '🍨'
 };
 
 // Kortin taustasävy silloin kun reseptillä ei ole vielä kuvaa.
@@ -126,8 +130,10 @@ const KATEGORIA_VARI = {
   'Piirakat': 'pinkki',
   'Pullat ja sämpylät': 'persikka',
   'Leivät': 'persikka',
+  'Suolaiset leivonnaiset': 'persikka',
   'Keksit ja pikkuleivät': 'pinkki',
-  'Jälkiruoat': 'pinkki'
+  'Jälkiruoat': 'pinkki',
+  'Ninja Creami': 'salvia'
 };
 
 function kategorianVari(kategoria) {
